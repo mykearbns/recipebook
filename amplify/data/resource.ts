@@ -1,4 +1,5 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { DateTimeAttribute } from "aws-cdk-lib/aws-cognito";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -6,18 +7,48 @@ adding a new "isDone" field as a boolean. The authorization rule below
 specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
+// const starter_schema = a.schema(
+//   {
+//     Todo: a
+//     .model({content: a.string(),})
+//     .authorization((allow) => [allow.publicApiKey()]),
+//   },
+  // {
+  //   Recipe: a
+  //   .model({content: a.string()})
+  //   .authorization((allow) => [allow.publicApiKey()]),
+  // },
+// );
+
+// const cookdate = a.schema(
+//   {
+//     CookDate: a.model({
+//       cook_date_time: a.datetime()
+//     })
+//   }
+// )
+
+
+
+
 const schema = a.schema({
-  Todo: a
-    .model({
-      content: a.string(),
-    })
-    .authorization((allow) => [allow.publicApiKey()]),
-});
+  Recipe: a.model({
+    id: a.string(),
+    recipe_title: a.string(),
+    
+  }).authorization((allow) => [allow.publicApiKey()]),
+
+  // CookDate: a.model({
+  //   id: a.integer(),
+  //   cookdate_time: a.datetime(),
+  //   number_of_guests: a.integer()
+  // })
+})
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
-  schema,
+  schema, // declared const must be specifically named 'schema' here.
   authorizationModes: {
     defaultAuthorizationMode: "apiKey",
     apiKeyAuthorizationMode: {
